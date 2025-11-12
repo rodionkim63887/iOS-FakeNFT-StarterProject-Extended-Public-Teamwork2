@@ -35,8 +35,13 @@ struct ProductInCart: View {
             
             Spacer()
             
-            Image("DeleteFromCart")
-                .frame(width: 40, height: 40)
+            Button {
+                print("Delete")
+            } label: {
+                Image("DeleteFromCart")
+                    .frame(width: 40, height: 40)
+            }
+            .buttonStyle(.plain)
         }
         .frame(height: 108)
     }
