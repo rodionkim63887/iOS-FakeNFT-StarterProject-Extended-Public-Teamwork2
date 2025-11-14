@@ -3,6 +3,9 @@ import SwiftUI
 struct CartView: View {
     var body: some View {
         ZStack {
+            Color.primaryColor
+                .ignoresSafeArea()
+            
             VStack(spacing: 20) {
                 HStack {
                     Spacer()
@@ -12,6 +15,7 @@ struct CartView: View {
                     } label: {
                         Image("SortCart")
                             .frame(width: 42, height: 42)
+                            .foregroundStyle(Color.accentColor)
                     }
                     .padding(.horizontal, 9)
                 }
@@ -20,6 +24,8 @@ struct CartView: View {
                     ForEach(0..<3) { _ in
                         ProductInCart()
                             .listRowSeparator(.hidden)
+                            .listRowBackground(Color.primaryColor)
+
                     }
                 }
                 .listRowSpacing(16)
@@ -31,18 +37,18 @@ struct CartView: View {
                 
                 ZStack {
                     Rectangle()
-                        .fill(.gray)
+                        .fill(Color.lightGreyColor)
                         .frame(height: 76)
                         .cornerRadius(12, corners: [.topLeft, .topRight])
                     
                     HStack {
                         VStack(alignment: .leading) {
                             Text("3 NFT")
-                                .font(.system(size: 15))
+                                .font(.regular15)
                             
                             Text("5,34 ETH")
-                                .font(.system(size: 17, weight: .bold))
-                                .foregroundStyle(.green)
+                                .font(.bold17)
+                                .foregroundStyle(.greenUniversal)
                         }
                         .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 8))
                         
@@ -50,12 +56,12 @@ struct CartView: View {
                             print("Pushed")
                         } label: {
                             RoundedRectangle(cornerRadius: 16)
-                                .fill(.black)
+                                .fill(Color.accentColor)
                                 .frame(height: 44)
                                 .overlay {
                                     Text("К оплате")
-                                        .font(.system(size: 17, weight: .bold))
-                                        .foregroundStyle(.white)
+                                        .font(.bold17)
+                                        .foregroundStyle(Color.primaryColor)
                                 }
                         }
                         .padding(16)

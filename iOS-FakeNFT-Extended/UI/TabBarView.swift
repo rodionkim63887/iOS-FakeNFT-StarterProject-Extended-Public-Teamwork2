@@ -18,6 +18,7 @@ struct TabBarView: View {
                         NSLocalizedString("Tab.cart", comment: ""),
                         image: "TabBarCart"
                     )
+                    .foregroundStyle(Color.accentColor)
                 }
         }
     }
