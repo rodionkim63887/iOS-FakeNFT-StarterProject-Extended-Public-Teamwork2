@@ -1,13 +1,16 @@
 import SwiftUI
 
 struct ProductInCart: View {
+    var viewModel: CartViewModel
+    let nft: NftMock
+    
     var body: some View {
         ZStack {
             Color.primaryColor
                 .ignoresSafeArea()
             
             HStack(spacing: 20) {
-                Image("MockNFTCard1")
+                Image(nft.image)
                     .resizable()
                     .scaledToFit()
                     .clipShape(
@@ -15,24 +18,17 @@ struct ProductInCart: View {
                     )
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Spring")
+                    Text(nft.name)
                         .font(.bold17)
                     
-                    HStack(spacing: 2) {
-                        ForEach(0..<5) { _ in
-                            Image(systemName: "star.fill")
-                                .resizable()
-                                .frame(width: 12, height: 12)
-                                .foregroundStyle(.yellowUniversal)
-                        }
-                    }
+                    ratingScale
                     
                     Spacer()
                     
                     Text("Цена")
                         .font(.regular13)
                     
-                    Text("1,78 ETH")
+                    Text("\(String(format: "%.2f", nft.price)) ETH")
                         .font(.bold17)
                 }
                 .padding(.vertical, 8)
@@ -41,6 +37,7 @@ struct ProductInCart: View {
                 
                 Button {
                     print("Delete")
+                    viewModel.tryDeletingFromCart(nft: nft)
                 } label: {
                     Image("DeleteFromCart")
                         .frame(width: 40, height: 40)
@@ -49,10 +46,29 @@ struct ProductInCart: View {
                 .buttonStyle(.plain)
             }
             .frame(height: 108)
+                
+        }
+    }
+    
+    private var ratingScale: some View {
+        HStack(spacing: 2) {
+            ForEach(0..<Int(nft.rating.rounded())) { _ in
+                Image(systemName: "star.fill")
+                    .resizable()
+                    .frame(width: 12, height: 12)
+                    .foregroundStyle(Color.yellowUniversalColor)
+            }
+            
+            ForEach(0..<(5 - Int(nft.rating.rounded()))) { _ in
+                Image(systemName: "star.fill")
+                    .resizable()
+                    .frame(width: 12, height: 12)
+                    .foregroundStyle(Color.lightGreyColor)
+            }
         }
     }
 }
 
-#Preview {
-    ProductInCart()
-}
+//#Preview {
+//    ProductInCart(viewModel: Cart, nft: NftMock.nftMock1)
+//}
