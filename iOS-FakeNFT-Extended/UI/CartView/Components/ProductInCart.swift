@@ -68,7 +68,3 @@ struct ProductInCart: View {
         }
     }
 }
-
-//#Preview {
-//    ProductInCart(viewModel: Cart, nft: NftMock.nftMock1)
-//}

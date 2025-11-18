@@ -5,102 +5,142 @@ struct CartView: View {
     
     var body: some View {
         ZStack {
-            ZStack {
-                Color.primaryColor
-                    .ignoresSafeArea()
-                
-                VStack(spacing: 20) {
-                    HStack {
-                        Spacer()
-                        
-                        Button {
-                            print("Sort")
-                        } label: {
-                            Image("SortCart")
-                                .frame(width: 42, height: 42)
-                                .foregroundStyle(Color.accentColor)
-                        }
-                        .padding(.horizontal, 9)
+            Color.primaryColor
+                .ignoresSafeArea()
+            
+            if !viewModel.nfts.isEmpty {
+                ZStack {
+                    VStack(spacing: 20) {
+                        navigationBarItems
+                        nftsList
                     }
                     
-                    List {
-                        ForEach(viewModel.nfts) { nft in
-                            ProductInCart(viewModel: viewModel, nft: nft)
-                                .listRowSeparator(.hidden)
-                                .listRowBackground(Color.primaryColor)
-                            
-                        }
-                    }
-                    .listRowSpacing(16)
-                    .listStyle(.plain)
+                    costAndPaymentPanel
                 }
-                
-                VStack {
-                    Spacer()
-                    
-                    ZStack {
-                        Rectangle()
-                            .fill(Color.lightGreyColor)
-                            .frame(height: 76)
-                            .cornerRadius(12, corners: [.topLeft, .topRight])
-                        
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text("\(viewModel.nfts.count) NFT")
-                                    .font(.regular15)
-                                
-                                Text("\(getTotalPrice()) ETH")
-                                    .font(.bold17)
-                                    .foregroundStyle(.greenUniversal)
-                            }
-                            .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 8))
-                            
-                            Button {
-                                print("Pushed")
-                            } label: {
-                                RoundedRectangle(cornerRadius: 16)
-                                    .fill(Color.accentColor)
-                                    .frame(height: 44)
-                                    .overlay {
-                                        Text("К оплате")
-                                            .font(.bold17)
-                                            .foregroundStyle(Color.primaryColor)
-                                    }
-                            }
-                            .padding(16)
-                        }
-                    }
-                }
+                .blur(radius: viewModel.blur)
+            } else {
+                Text("Корзина пуста")
+                    .font(.bold17)
+                    .foregroundStyle(Color.accentColor)
             }
-            .blur(radius: viewModel.blur)
             
             if viewModel.deletingAttempt {
+                nftDeletingView
+            }
+        }
+    }
+    
+    private var navigationBarItems: some View {
+        HStack {
+            Spacer()
+            
+            Button {
+                print("Sort")
+            } label: {
+                Image("SortCart")
+                    .frame(width: 42, height: 42)
+                    .foregroundStyle(Color.accentColor)
+            }
+            .padding(.horizontal, 9)
+        }
+    }
+    
+    private var nftsList: some View {
+        List {
+            ForEach(viewModel.nfts) { nft in
+                ProductInCart(viewModel: viewModel, nft: nft)
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.primaryColor)
+                
+            }
+        }
+        .listRowSpacing(16)
+        .listStyle(.plain)
+    }
+    
+    private var costAndPaymentPanel: some View {
+        VStack {
+            Spacer()
+            
+            ZStack {
+                Rectangle()
+                    .fill(Color.lightGreyColor)
+                    .frame(height: 76)
+                    .cornerRadius(12, corners: [.topLeft, .topRight])
+                
                 HStack {
-                    Button {
-                        print("Отменить")
-                        viewModel.cancelDeleting()
-                    } label: {
-                        Text("Отменить")
+                    VStack(alignment: .leading) {
+                        Text("\(viewModel.nfts.count) NFT")
+                            .font(.regular15)
+                        
+                        Text("\(viewModel.getTotalPrice()) ETH")
+                            .font(.bold17)
+                            .foregroundStyle(.greenUniversal)
                     }
+                    .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 8))
                     
                     Button {
-                        print("Удалить")
-                        viewModel.deleteFromCart()
+                        print("Pushed")
                     } label: {
-                        Text("Удалить")
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(Color.accentColor)
+                            .frame(height: 44)
+                            .overlay {
+                                Text("К оплате")
+                                    .font(.bold17)
+                                    .foregroundStyle(Color.primaryColor)
+                            }
                     }
+                    .padding(16)
                 }
             }
         }
     }
     
-    private func getTotalPrice() -> String {
-        var totalPrice: Double = 0
-        for nft in viewModel.nfts {
-            totalPrice += nft.price
+    private var nftDeletingView: some View {
+        VStack {
+            Image(viewModel.getImage())
+                .resizable()
+                .frame(width: 108, height: 108)
+                .clipShape(
+                    RoundedRectangle(cornerRadius: 12)
+                )
+                .padding(.bottom, 12)
+            
+            Text("Вы уверены, что хотите\nудалить объект из корзины?")
+                .font(.regular13)
+                .foregroundStyle(Color.accentColor)
+                .multilineTextAlignment(.center)
+                .padding(.bottom, 20)
+            
+            HStack(spacing: 8) {
+                Button {
+                    viewModel.deleteFromCart()
+                } label: {
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(Color.accentColor)
+                        .frame(width: 127, height: 44)
+                        .overlay {
+                            Text("Удалить")
+                                .font(.regular17)
+                                .foregroundStyle(Color.redUniversal)
+                        }
+                }
+                
+                Button {
+                    viewModel.cancelDeleting()
+                } label: {
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(Color.accentColor)
+                        .frame(width: 127, height: 44)
+                        .overlay {
+                            Text("Вернуться")
+                                .font(.regular17)
+                                .foregroundStyle(Color.primaryColor)
+                        }
+                }
+            }
         }
-        
-        return String(format: "%.2f", totalPrice)
     }
 }
 
