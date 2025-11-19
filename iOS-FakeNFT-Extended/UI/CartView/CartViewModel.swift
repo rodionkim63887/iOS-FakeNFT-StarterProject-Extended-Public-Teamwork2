@@ -2,18 +2,17 @@ import SwiftUI
 
 @Observable
 final class CartViewModel {
-    var nfts: [NftMock] = [NftMock.nftMock1, NftMock.nftMock2, NftMock.nftMock3]
+    var nfts: [NftMock] = [MockData.nftMock1, MockData.nftMock2, MockData.nftMock3]
     var deletingAttempt = false
     var blur: CGFloat = 0
     var nftToDelete: NftMock?
     
+    var nftToDeleteImage: String {
+       nftToDelete?.image ?? ""
+    }
+    
     func getTotalPrice() -> String {
-        var totalPrice: Double = 0
-        for nft in nfts {
-            totalPrice += nft.price
-        }
-        
-        return String(format: "%.2f", totalPrice)
+        return String(format: "%.2f", nfts.reduce(0) { $0 + $1.price })
     }
     
     func tryDeletingFromCart(nft: NftMock) {
@@ -34,6 +33,7 @@ final class CartViewModel {
     
     func deleteFromCart() {
         guard let nftToDelete else {
+            assertionFailure("[CartViewModel] - deleteFromCart: No such NFT found.")
             return
         }
         
@@ -41,14 +41,7 @@ final class CartViewModel {
             nfts.removeAll(where: { $0.id == nftToDelete.id })
             deletingAttempt = false
             blur = 0
+            self.nftToDelete = nil
         }
-    }
-    
-    func getImage() -> String {
-        guard let nftToDelete else {
-            return ""
-        }
-        
-        return nftToDelete.image
     }
 }

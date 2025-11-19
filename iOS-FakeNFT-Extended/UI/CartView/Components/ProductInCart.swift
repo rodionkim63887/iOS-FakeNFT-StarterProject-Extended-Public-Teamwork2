@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ProductInCart: View {
-    var viewModel: CartViewModel
+    let viewModel: CartViewModel
     let nft: NftMock
     
     var body: some View {
@@ -52,14 +52,16 @@ struct ProductInCart: View {
     
     private var ratingScale: some View {
         HStack(spacing: 2) {
-            ForEach(0..<Int(nft.rating.rounded())) { _ in
+            let starsCount = Int(nft.rating.rounded())
+            
+            ForEach(0..<starsCount, id: \.self) { _ in
                 Image(systemName: "star.fill")
                     .resizable()
                     .frame(width: 12, height: 12)
                     .foregroundStyle(Color.yellowUniversalColor)
             }
             
-            ForEach(0..<(5 - Int(nft.rating.rounded()))) { _ in
+            ForEach(0..<(5 - starsCount), id: \.self) { _ in
                 Image(systemName: "star.fill")
                     .resizable()
                     .frame(width: 12, height: 12)
