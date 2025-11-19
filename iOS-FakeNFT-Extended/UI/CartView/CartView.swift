@@ -8,21 +8,21 @@ struct CartView: View {
             Color.primaryColor
                 .ignoresSafeArea()
             
-            if !viewModel.nfts.isEmpty {
-                ZStack {
-                    VStack(spacing: 20) {
-                        navigationBarItems
-                        nftsList
-                    }
-                    
-                    costAndPaymentPanel
+            ZStack {
+                VStack(spacing: 20) {
+                    navigationBarItems
+                    nftsList
                 }
-                .blur(radius: viewModel.blur)
-            } else {
-                Text("Корзина пуста")
-                    .font(.bold17)
-                    .foregroundStyle(Color.accentColor)
+                
+                costAndPaymentPanel
             }
+            .opacity(viewModel.nfts.isEmpty ? 0 : 1)
+            .blur(radius: viewModel.blur)
+            
+            Text("Корзина пуста")
+                .font(.bold17)
+                .foregroundStyle(Color.accentColor)
+                .opacity(viewModel.nfts.isEmpty ? 1 : 0)
             
             if viewModel.deletingAttempt {
                 nftDeletingView
@@ -99,7 +99,7 @@ struct CartView: View {
     
     private var nftDeletingView: some View {
         VStack {
-            Image(viewModel.getImage())
+            Image(viewModel.nftToDeleteImage)
                 .resizable()
                 .frame(width: 108, height: 108)
                 .clipShape(
