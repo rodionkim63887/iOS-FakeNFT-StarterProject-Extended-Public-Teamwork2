@@ -136,6 +136,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		061E15052ED36285005EB02C /* Routing */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Routing; sourceTree = "<group>"; };
 		0639A2032ECB627D00DDECA9 /* Mocks */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Mocks; sourceTree = "<group>"; };
 		06D9ED3B2EC3824100953E14 /* CartView */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = CartView; sourceTree = "<group>"; };
 		06D9EDF62EC4B81700953E14 /* Components */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Components; sourceTree = "<group>"; };
@@ -208,6 +209,7 @@
 		ABC5E16A2C31F5AF002B4068 /* iOS-FakeNFT-Extended */ = {
 			isa = PBXGroup;
 			children = (
+				061E15052ED36285005EB02C /* Routing */,
 				97BA300C2ECC8D6900089499 /* Info.plist */,
 				06D9EDFA2EC4B87300953E14 /* Extensions */,
 				ABC5E16B2C31F5AF002B4068 /* iOS_FakeNFT_ExtendedApp.swift */,
@@ -401,10 +403,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				0639A2032ECB627D00DDECA9 /* Mocks */,
-				06D9ED3B2EC3824100953E14 /* CartView */,
-				06D9EDF62EC4B81700953E14 /* Components */,
-				06D9EDFA2EC4B87300953E14 /* Extensions */,
+				061E15052ED36285005EB02C /* Routing */,
 			);
 			name = "iOS-FakeNFT-Extended";
 			packageProductDependencies = (
