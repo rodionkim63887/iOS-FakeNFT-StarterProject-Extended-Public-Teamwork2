@@ -2,6 +2,7 @@ import SwiftUI
 
 struct CartView: View {
     @State var viewModel: CartViewModel
+    let orderService = OrderServiceImpl(networkClient: DefaultNetworkClient())
     
     var body: some View {
         ZStack {
@@ -26,6 +27,16 @@ struct CartView: View {
             
             if viewModel.deletingAttempt {
                 nftDeletingView
+            }
+        }
+        .onAppear {
+            Task {
+                do {
+                    let currencies = try await orderService.getCurrencies()
+                    print(currencies)
+                } catch {
+                    assertionFailure("Fail: \(error)")
+                }
             }
         }
     }
