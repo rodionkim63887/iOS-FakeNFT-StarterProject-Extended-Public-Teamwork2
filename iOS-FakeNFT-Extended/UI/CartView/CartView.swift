@@ -1,6 +1,8 @@
 import SwiftUI
+import ProgressHUD
 
 struct CartView: View {
+    @Environment(Router.self) private var router
     @State var viewModel: CartViewModel
     let orderService = OrderServiceImpl(networkClient: DefaultNetworkClient())
     
@@ -27,16 +29,6 @@ struct CartView: View {
             
             if viewModel.deletingAttempt {
                 nftDeletingView
-            }
-        }
-        .onAppear {
-            Task {
-                do {
-                    let currencies = try await orderService.getCurrencies()
-                    print(currencies)
-                } catch {
-                    assertionFailure("Fail: \(error)")
-                }
             }
         }
     }
@@ -91,7 +83,18 @@ struct CartView: View {
                     .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 8))
                     
                     Button {
-                        print("Pushed")
+                        ProgressHUD.animate()
+                        Task {
+                            do {
+                                let currencies = try await orderService.getCurrencies()
+                                DispatchQueue.main.async {
+                                    ProgressHUD.dismiss()
+                                    router.push(.paymentMethod(currencies: currencies))
+                                }
+                            } catch {
+                                assertionFailure("Fail: \(error)")
+                            }
+                        }
                     } label: {
                         RoundedRectangle(cornerRadius: 16)
                             .fill(Color.accentColor)
@@ -153,8 +156,4 @@ struct CartView: View {
             }
         }
     }
-}
-
-#Preview {
-    CartView(viewModel: CartViewModel())
 }
