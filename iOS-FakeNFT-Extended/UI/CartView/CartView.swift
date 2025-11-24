@@ -4,6 +4,7 @@ import ProgressHUD
 struct CartView: View {
     @Environment(Router.self) private var router
     @State var viewModel: CartViewModel
+    @State private var showingOptions = false
     let orderService = OrderServiceImpl(networkClient: DefaultNetworkClient())
     
     var body: some View {
@@ -38,13 +39,30 @@ struct CartView: View {
             Spacer()
             
             Button {
-                print("Sort")
+                showingOptions = true
             } label: {
                 Image("SortCart")
                     .frame(width: 42, height: 42)
                     .foregroundStyle(Color.accentColor)
             }
             .padding(.horizontal, 9)
+            .confirmationDialog("Сортировка", isPresented: $showingOptions) {
+                Button("По цене") {
+                    viewModel.nfts.sort(by: { $0.price < $1.price })
+                }
+                
+                Button("По рейтингу") {
+                    viewModel.nfts.sort(by: { $0.rating > $1.rating })
+                }
+                
+                Button("По названию") {
+                    viewModel.nfts.sort(by: { $0.name < $1.name })
+                }
+                
+                Button("Закрыть", role: .cancel) {
+                    showingOptions = false
+                }
+            }
         }
     }
     

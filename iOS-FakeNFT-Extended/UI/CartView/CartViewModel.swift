@@ -2,7 +2,7 @@ import SwiftUI
 
 @Observable
 final class CartViewModel {
-    var nfts: [NftMock] = [MockData.nftMock1, MockData.nftMock2, MockData.nftMock3]
+    var nfts: [NftMock] = [MockData.nftMock2, MockData.nftMock1, MockData.nftMock3]
     var deletingAttempt = false
     var blur: CGFloat = 0
     var nftToDelete: NftMock?
