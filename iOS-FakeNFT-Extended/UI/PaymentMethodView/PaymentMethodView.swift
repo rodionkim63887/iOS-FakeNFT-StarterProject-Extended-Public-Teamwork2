@@ -4,9 +4,6 @@ struct PaymentMethodView: View {
     @Environment(Router.self) private var router
     let currencies: [Currency]
     private let columns = [GridItem(.flexible()), GridItem(.flexible())]
-    let fullName = "Bitcoin"
-    let shortName: String = "BTC"
-    let imageURL: String = "https://code.s3.yandex.net/Mobile/iOS/Currencies/Bitcoin_(BTC).png"
     
     var body: some View {
         ZStack {
@@ -17,11 +14,6 @@ struct PaymentMethodView: View {
                 navigationBarItems
                 paymentMethodsGrid
                 Spacer()
-            }
-            
-            VStack {
-                Spacer()
-                
                 bottomPanel
             }
         }
