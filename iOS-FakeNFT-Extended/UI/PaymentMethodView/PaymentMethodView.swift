@@ -63,6 +63,7 @@ struct PaymentMethodView: View {
                 .onTapGesture {
                     print("Пользовательское соглашение")
                 }
+                .padding(.top, 1)
             
             Button {
                 print("Pay")
