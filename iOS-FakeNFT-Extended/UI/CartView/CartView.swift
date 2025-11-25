@@ -29,7 +29,7 @@ struct CartView: View {
                 .opacity(viewModel.nfts.isEmpty ? 1 : 0)
             
             if viewModel.deletingAttempt {
-                nftDeletingView
+                NftDeletingView(viewModel: viewModel)
             }
         }
     }
@@ -46,17 +46,17 @@ struct CartView: View {
                     .foregroundStyle(Color.accentColor)
             }
             .padding(.horizontal, 9)
-            .confirmationDialog("Сортировка", isPresented: $showingOptions) {
+            .confirmationDialog("Сортировка", isPresented: $showingOptions, titleVisibility: .visible) {
                 Button("По цене") {
-                    viewModel.nfts.sort(by: { $0.price < $1.price })
+                    viewModel.sortByPrice()
                 }
                 
                 Button("По рейтингу") {
-                    viewModel.nfts.sort(by: { $0.rating > $1.rating })
+                    viewModel.sortByRating()
                 }
                 
                 Button("По названию") {
-                    viewModel.nfts.sort(by: { $0.name < $1.name })
+                    viewModel.sortByName()
                 }
                 
                 Button("Закрыть", role: .cancel) {
@@ -124,52 +124,6 @@ struct CartView: View {
                             }
                     }
                     .padding(16)
-                }
-            }
-        }
-    }
-    
-    private var nftDeletingView: some View {
-        VStack {
-            Image(viewModel.nftToDeleteImage)
-                .resizable()
-                .frame(width: 108, height: 108)
-                .clipShape(
-                    RoundedRectangle(cornerRadius: 12)
-                )
-                .padding(.bottom, 12)
-            
-            Text("Вы уверены, что хотите\nудалить объект из корзины?")
-                .font(.regular13)
-                .foregroundStyle(Color.accentColor)
-                .multilineTextAlignment(.center)
-                .padding(.bottom, 20)
-            
-            HStack(spacing: 8) {
-                Button {
-                    viewModel.deleteFromCart()
-                } label: {
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.accentColor)
-                        .frame(width: 127, height: 44)
-                        .overlay {
-                            Text("Удалить")
-                                .font(.regular17)
-                                .foregroundStyle(Color.redUniversal)
-                        }
-                }
-                
-                Button {
-                    viewModel.cancelDeleting()
-                } label: {
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.accentColor)
-                        .frame(width: 127, height: 44)
-                        .overlay {
-                            Text("Вернуться")
-                                .font(.regular17)
-                                .foregroundStyle(Color.primaryColor)
-                        }
                 }
             }
         }

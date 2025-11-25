@@ -1,4 +1,5 @@
 import SwiftUI
+import Kingfisher
 
 struct CurrencyCell: View {
     let fullName: String

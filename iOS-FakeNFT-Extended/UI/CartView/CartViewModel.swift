@@ -44,4 +44,16 @@ final class CartViewModel {
             self.nftToDelete = nil
         }
     }
+    
+    func sortByPrice() {
+        nfts.sort(by: { $0.price < $1.price })
+    }
+    
+    func sortByRating() {
+        nfts.sort(by: { $0.rating > $1.rating })
+    }
+    
+    func sortByName() {
+        nfts.sort(by: { $0.name < $1.name })
+    }
 }
