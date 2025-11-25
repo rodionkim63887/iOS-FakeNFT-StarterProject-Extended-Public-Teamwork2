@@ -15,14 +15,12 @@ struct CurrencyCell: View {
                 RoundedRectangle(cornerRadius: 6)
                     .fill(.blackUniversal)
                     .overlay {
-                        AsyncImage(url: URL(string: imageURL)) { result in
-                            result.image?
-                                .resizable()
-                                .padding(2.25)
-                        }
-                        .clipShape(
-                            RoundedRectangle(cornerRadius: 6)
-                        )
+                        KFImage(URL(string: imageURL))
+                            .resizable()
+                            .padding(2.25)
+                            .clipShape(
+                                RoundedRectangle(cornerRadius: 6)
+                            )
                     }
                     .frame(width: 36, height: 36)
                 
