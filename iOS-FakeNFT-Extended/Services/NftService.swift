@@ -20,7 +20,7 @@ final class NftServiceImpl: NftService {
             return nft
         }
 
-        let request = GetNftByIdRequest(nft_id: id)
+        let request = NFTRequest(id: id)
         let nft: Nft = try await networkClient.send(request: request)
         await storage.saveNft(nft)
         return nft
