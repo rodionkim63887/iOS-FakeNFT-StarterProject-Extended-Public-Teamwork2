@@ -23,7 +23,7 @@ struct NftDeletingView: View {
                 Button {
                     viewModel.deleteFromCart()
                 } label: {
-                    RoundedRectangle(cornerRadius: 16)
+                    RoundedRectangle(cornerRadius: 12)
                         .fill(Color.accentColor)
                         .frame(width: 127, height: 44)
                         .overlay {
@@ -36,7 +36,7 @@ struct NftDeletingView: View {
                 Button {
                     viewModel.cancelDeleting()
                 } label: {
-                    RoundedRectangle(cornerRadius: 16)
+                    RoundedRectangle(cornerRadius: 12)
                         .fill(Color.accentColor)
                         .frame(width: 127, height: 44)
                         .overlay {
