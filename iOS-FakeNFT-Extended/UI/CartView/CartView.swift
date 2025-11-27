@@ -1,7 +1,11 @@
 import SwiftUI
+import ProgressHUD
 
 struct CartView: View {
+    @Environment(Router.self) private var router
     @State var viewModel: CartViewModel
+    @State private var showingOptions = false
+    let orderService = OrderServiceImpl(networkClient: DefaultNetworkClient())
     
     var body: some View {
         ZStack {
@@ -25,7 +29,7 @@ struct CartView: View {
                 .opacity(viewModel.nfts.isEmpty ? 1 : 0)
             
             if viewModel.deletingAttempt {
-                nftDeletingView
+                NftDeletingView(viewModel: viewModel)
             }
         }
     }
@@ -35,13 +39,30 @@ struct CartView: View {
             Spacer()
             
             Button {
-                print("Sort")
+                showingOptions = true
             } label: {
                 Image("SortCart")
                     .frame(width: 42, height: 42)
                     .foregroundStyle(Color.accentColor)
             }
             .padding(.horizontal, 9)
+            .confirmationDialog("Сортировка", isPresented: $showingOptions, titleVisibility: .visible) {
+                Button("По цене") {
+                    viewModel.sortByPrice()
+                }
+                
+                Button("По рейтингу") {
+                    viewModel.sortByRating()
+                }
+                
+                Button("По названию") {
+                    viewModel.sortByName()
+                }
+                
+                Button("Закрыть", role: .cancel) {
+                    showingOptions = false
+                }
+            }
         }
     }
     
@@ -80,7 +101,18 @@ struct CartView: View {
                     .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 8))
                     
                     Button {
-                        print("Pushed")
+                        ProgressHUD.animate()
+                        Task {
+                            do {
+                                let currencies = try await orderService.getCurrencies()
+                                await MainActor.run {
+                                    ProgressHUD.dismiss()
+                                    router.push(.paymentMethod(currencies: currencies))
+                                }
+                            } catch {
+                                assertionFailure("Fail: \(error)")
+                            }
+                        }
                     } label: {
                         RoundedRectangle(cornerRadius: 16)
                             .fill(Color.accentColor)
@@ -96,54 +128,4 @@ struct CartView: View {
             }
         }
     }
-    
-    private var nftDeletingView: some View {
-        VStack {
-            Image(viewModel.nftToDeleteImage)
-                .resizable()
-                .frame(width: 108, height: 108)
-                .clipShape(
-                    RoundedRectangle(cornerRadius: 12)
-                )
-                .padding(.bottom, 12)
-            
-            Text("Вы уверены, что хотите\nудалить объект из корзины?")
-                .font(.regular13)
-                .foregroundStyle(Color.accentColor)
-                .multilineTextAlignment(.center)
-                .padding(.bottom, 20)
-            
-            HStack(spacing: 8) {
-                Button {
-                    viewModel.deleteFromCart()
-                } label: {
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.accentColor)
-                        .frame(width: 127, height: 44)
-                        .overlay {
-                            Text("Удалить")
-                                .font(.regular17)
-                                .foregroundStyle(Color.redUniversal)
-                        }
-                }
-                
-                Button {
-                    viewModel.cancelDeleting()
-                } label: {
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.accentColor)
-                        .frame(width: 127, height: 44)
-                        .overlay {
-                            Text("Вернуться")
-                                .font(.regular17)
-                                .foregroundStyle(Color.primaryColor)
-                        }
-                }
-            }
-        }
-    }
-}
-
-#Preview {
-    CartView(viewModel: CartViewModel())
 }

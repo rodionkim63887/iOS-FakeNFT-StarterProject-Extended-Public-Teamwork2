@@ -2,7 +2,7 @@ import SwiftUI
 
 @Observable
 final class CartViewModel {
-    var nfts: [NftMock] = [MockData.nftMock1, MockData.nftMock2, MockData.nftMock3]
+    var nfts: [NftMock] = [MockData.nftMock2, MockData.nftMock1, MockData.nftMock3]
     var deletingAttempt = false
     var blur: CGFloat = 0
     var nftToDelete: NftMock?
@@ -43,5 +43,17 @@ final class CartViewModel {
             blur = 0
             self.nftToDelete = nil
         }
+    }
+    
+    func sortByPrice() {
+        nfts.sort(by: { $0.price < $1.price })
+    }
+    
+    func sortByRating() {
+        nfts.sort(by: { $0.rating > $1.rating })
+    }
+    
+    func sortByName() {
+        nfts.sort(by: { $0.name < $1.name })
     }
 }
