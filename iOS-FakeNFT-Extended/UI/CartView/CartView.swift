@@ -105,7 +105,7 @@ struct CartView: View {
                         Task {
                             do {
                                 let currencies = try await orderService.getCurrencies()
-                                DispatchQueue.main.async {
+                                await MainActor.run {
                                     ProgressHUD.dismiss()
                                     router.push(.paymentMethod(currencies: currencies))
                                 }
