@@ -2,6 +2,8 @@ import SwiftUI
 
 struct PaymentMethodView: View {
     @Environment(Router.self) private var router
+    @State private var selectedCurrency: Currency? = nil
+    private let orderService = OrderServiceImpl(networkClient: DefaultNetworkClient())
     let currencies: [Currency]
     private let columns = [GridItem(.flexible()), GridItem(.flexible())]
     
@@ -43,9 +45,19 @@ struct PaymentMethodView: View {
         LazyVGrid(columns: columns, spacing: 7) {
             ForEach(currencies, id: \.self) { currency in
                 CurrencyCell(fullName: currency.title, shortName: currency.name, imageURL: currency.image)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(
+                                selectedCurrency == currency ? Color.accentColor : Color.clear,
+                                lineWidth: 1
+                            )
+                    )
                     .clipShape(
                         RoundedRectangle(cornerRadius: 12)
                     )
+                    .onTapGesture {
+                        selectedCurrency = currency
+                    }
             }
         }
         .padding(EdgeInsets(top: 20, leading: 16, bottom: 20, trailing: 16))
@@ -66,7 +78,19 @@ struct PaymentMethodView: View {
                 .padding(.top, 1)
             
             Button {
-                print("Pay")
+                if let selectedCurrency {
+                    Task {
+                        do {
+                            let result = try await orderService.setCurrency(id: selectedCurrency.id)
+                            print(result)
+                            if result.success {
+                                router.push(.successfulPayment)
+                            }
+                        } catch {
+                            assertionFailure("Вывести алерт")
+                        }
+                    }
+                }
             } label: {
                 RoundedRectangle(cornerRadius: 16)
                     .fill(Color.accentColor)
