@@ -9,8 +9,8 @@ struct iOS_FakeNFT_ExtendedApp: App {
             RouterView {
                 ContentView()
                     .environment(ServicesAssembly(networkClient: DefaultNetworkClient(), nftStorage: NftStorageImpl()))
-                    .environment(cart)
             }
+            .environment(cart)
         }
     }
 }
