@@ -82,9 +82,10 @@ struct PaymentMethodView: View {
                     Task {
                         do {
                             let result = try await orderService.setCurrency(id: selectedCurrency.id)
-                            print(result)
                             if result.success {
-                                router.push(.successfulPayment)
+                                await MainActor.run {
+                                    router.push(.successfulPayment)
+                                }
                             }
                         } catch {
                             assertionFailure("Вывести алерт")
