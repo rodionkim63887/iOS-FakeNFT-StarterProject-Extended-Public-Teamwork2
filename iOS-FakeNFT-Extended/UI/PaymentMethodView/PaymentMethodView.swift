@@ -73,7 +73,7 @@ struct PaymentMethodView: View {
                 .font(.regular13)
                 .foregroundStyle(Color.blueUniversalColor)
                 .onTapGesture {
-                    print("Пользовательское соглашение")
+                    router.push(.userAgreementView)
                 }
                 .padding(.top, 1)
             

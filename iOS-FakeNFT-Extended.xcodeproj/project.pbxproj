@@ -155,6 +155,7 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		061E15052ED36285005EB02C /* Routing */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (061E15592ED36C3D005EB02C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Routing; sourceTree = "<group>"; };
 		061E155B2ED36E57005EB02C /* PaymentMethodView */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PaymentMethodView; sourceTree = "<group>"; };
+		0634656B2EDDC29900AEF7F3 /* UserAgreementView */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = UserAgreementView; sourceTree = "<group>"; };
 		0639A2032ECB627D00DDECA9 /* Mocks */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Mocks; sourceTree = "<group>"; };
 		06AB9A622ED9CE2800C05C24 /* SuccessfulPaymentView */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = SuccessfulPaymentView; sourceTree = "<group>"; };
 		06D9ED3B2EC3824100953E14 /* CartView */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = CartView; sourceTree = "<group>"; };
@@ -363,6 +364,7 @@
 		ABC5E1B32C31FC03002B4068 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				0634656B2EDDC29900AEF7F3 /* UserAgreementView */,
 				06AB9A622ED9CE2800C05C24 /* SuccessfulPaymentView */,
 				061E155B2ED36E57005EB02C /* PaymentMethodView */,
 				06D9EDF62EC4B81700953E14 /* Components */,
@@ -428,6 +430,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				061E155B2ED36E57005EB02C /* PaymentMethodView */,
+				0634656B2EDDC29900AEF7F3 /* UserAgreementView */,
 				0639A2032ECB627D00DDECA9 /* Mocks */,
 				06AB9A622ED9CE2800C05C24 /* SuccessfulPaymentView */,
 				06D9ED3B2EC3824100953E14 /* CartView */,

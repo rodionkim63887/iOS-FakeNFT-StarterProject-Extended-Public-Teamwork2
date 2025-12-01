@@ -6,6 +6,7 @@ final class Router {
     enum Route: Hashable {
         case paymentMethod(currencies: [Currency])
         case successfulPayment
+        case userAgreementView
     }
     
     var path = NavigationPath()
@@ -17,6 +18,8 @@ final class Router {
             PaymentMethodView(currencies: currencies)
         case .successfulPayment:
             SuccessfulPaymentView()
+        case .userAgreementView:
+            UserAgreementView()
         }
     }
     
