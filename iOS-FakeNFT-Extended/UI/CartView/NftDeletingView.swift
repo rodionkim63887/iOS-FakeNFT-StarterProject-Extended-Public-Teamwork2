@@ -1,11 +1,12 @@
 import SwiftUI
+import Kingfisher
 
 struct NftDeletingView: View {
-    @State var viewModel: CartViewModel
+    @Environment(CartStore.self) private var cart
     
     var body: some View {
         VStack {
-            Image(viewModel.nftToDeleteImage)
+            KFImage(cart.nftToDeleteImage)
                 .resizable()
                 .frame(width: 108, height: 108)
                 .clipShape(
@@ -21,7 +22,12 @@ struct NftDeletingView: View {
             
             HStack(spacing: 8) {
                 Button {
-                    viewModel.deleteFromCart()
+                    guard let nftToDelete = cart.nftToDelete else {
+                        assertionFailure("[CartViewModel] - deleteFromCart: No such NFT found.")
+                        return
+                    }
+                    cart.remove(nftToDelete)
+                    cart.deleteFromCart()
                 } label: {
                     RoundedRectangle(cornerRadius: 12)
                         .fill(Color.accentColor)
@@ -34,7 +40,7 @@ struct NftDeletingView: View {
                 }
                 
                 Button {
-                    viewModel.cancelDeleting()
+                    cart.cancelDeleting()
                 } label: {
                     RoundedRectangle(cornerRadius: 12)
                         .fill(Color.accentColor)
