@@ -88,7 +88,7 @@ struct PaymentMethodView: View {
                                 }
                             }
                         } catch {
-                            assertionFailure("Вывести алерт")
+                            assertionFailure("An error occurred")
                         }
                     }
                 }
