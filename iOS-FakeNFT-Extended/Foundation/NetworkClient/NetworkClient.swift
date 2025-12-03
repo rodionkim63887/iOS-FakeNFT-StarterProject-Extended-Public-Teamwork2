@@ -4,7 +4,7 @@ enum NetworkClientError: Error {
     case httpStatusCode(Int)
     case urlRequestError(Error)
     case urlSessionError
-    case parsingError
+    case parsingError(Error)
     case incorrectRequest(String)
 }
 
@@ -69,7 +69,7 @@ actor DefaultNetworkClient: NetworkClient {
         do {
             return try decoder.decode(T.self, from: data)
         } catch {
-            throw NetworkClientError.parsingError
+            throw NetworkClientError.parsingError(error)
         }
     }
 }
