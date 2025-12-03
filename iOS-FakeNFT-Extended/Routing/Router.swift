@@ -9,13 +9,13 @@ final class Router {
     
     var path = NavigationPath()
     
-    @ViewBuilder
-    func view(for route: Route) -> some View {
-        switch route {
-        case .nftDetailBridge:              //Тестовый кейс. Можно убрать, как только добавите хотя бы один свой.
-            NftDetailBridgeView()
-        }
-    }
+//    @ViewBuilder
+//    func view(for route: Route) -> some View {
+//        switch route {
+//        case .nftDetailBridge:              //Тестовый кейс. Можно убрать, как только добавите хотя бы один свой.
+//            
+//        }
+//    }
     
     func push(_ appRoute: Route) {
         path.append(appRoute)
