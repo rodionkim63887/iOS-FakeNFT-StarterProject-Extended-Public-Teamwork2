@@ -1,6 +1,9 @@
 import SwiftUI
 
 struct RouterView<Content: View>: View {
+    @State private var router = Router()
+    private let content: Content
+    
     init(@ViewBuilder content: @escaping () -> Content) {
         self.content = content()
     }
@@ -15,7 +18,4 @@ struct RouterView<Content: View>: View {
         }
         .environment(router)
     }
-
-    @State private var router = Router()
-    private let content: Content
 }
