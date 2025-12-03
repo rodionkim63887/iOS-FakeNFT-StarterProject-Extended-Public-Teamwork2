@@ -3,7 +3,7 @@ import ProgressHUD
 
 struct CartView: View {
     @Environment(Router.self) private var router
-    @State var viewModel: CartViewModel
+    @Environment(CartStore.self) private var cart
     @State private var showingOptions = false
     let orderService = OrderServiceImpl(networkClient: DefaultNetworkClient())
     
@@ -20,16 +20,16 @@ struct CartView: View {
                 
                 costAndPaymentPanel
             }
-            .opacity(viewModel.nfts.isEmpty ? 0 : 1)
-            .blur(radius: viewModel.blur)
+            .opacity(cart.items.isEmpty ? 0 : 1)
+            .blur(radius: cart.blur)
             
             Text("Корзина пуста")
                 .font(.bold17)
                 .foregroundStyle(Color.accentColor)
-                .opacity(viewModel.nfts.isEmpty ? 1 : 0)
+                .opacity(cart.items.isEmpty ? 1 : 0)
             
-            if viewModel.deletingAttempt {
-                NftDeletingView(viewModel: viewModel)
+            if cart.deletingAttempt {
+                NftDeletingView()
             }
         }
     }
@@ -48,15 +48,15 @@ struct CartView: View {
             .padding(.horizontal, 9)
             .confirmationDialog("Сортировка", isPresented: $showingOptions, titleVisibility: .visible) {
                 Button("По цене") {
-                    viewModel.sortByPrice()
+                    cart.items.sort(by: { $0.price < $1.price })
                 }
                 
                 Button("По рейтингу") {
-                    viewModel.sortByRating()
+                    cart.items.sort(by: { $0.rating > $1.rating })
                 }
                 
                 Button("По названию") {
-                    viewModel.sortByName()
+                    cart.items.sort(by: { $0.name < $1.name })
                 }
                 
                 Button("Закрыть", role: .cancel) {
@@ -68,11 +68,10 @@ struct CartView: View {
     
     private var nftsList: some View {
         List {
-            ForEach(viewModel.nfts) { nft in
-                ProductInCart(viewModel: viewModel, nft: nft)
+            ForEach(cart.items) { nft in
+                ProductInCart(nft: nft)
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.primaryColor)
-                
             }
         }
         .listRowSpacing(16)
@@ -91,10 +90,10 @@ struct CartView: View {
                 
                 HStack {
                     VStack(alignment: .leading) {
-                        Text("\(viewModel.nfts.count) NFT")
+                        Text("\(cart.items.count) NFT")
                             .font(.regular15)
                         
-                        Text("\(viewModel.getTotalPrice()) ETH")
+                        Text("\(String(format: "%.2f", cart.totalPrice)) ETH")
                             .font(.bold17)
                             .foregroundStyle(.greenUniversal)
                     }

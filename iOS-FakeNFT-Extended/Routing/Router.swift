@@ -5,6 +5,8 @@ import SwiftUI
 final class Router {
     enum Route: Hashable {
         case paymentMethod(currencies: [Currency])
+        case successfulPayment
+        case userAgreementView
     }
     
     var path = NavigationPath()
@@ -14,6 +16,10 @@ final class Router {
         switch route {
         case .paymentMethod(let currencies):
             PaymentMethodView(currencies: currencies)
+        case .successfulPayment:
+            SuccessfulPaymentView()
+        case .userAgreementView:
+            UserAgreementView()
         }
     }
     
