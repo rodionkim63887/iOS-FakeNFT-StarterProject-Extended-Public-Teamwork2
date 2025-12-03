@@ -93,7 +93,7 @@ struct CartView: View {
                         Text("\(cart.items.count) NFT")
                             .font(.regular15)
                         
-                        Text("\(String(format: "%.2f", cart.getTotalPrice())) ETH")
+                        Text("\(String(format: "%.2f", cart.totalPrice)) ETH")
                             .font(.bold17)
                             .foregroundStyle(.greenUniversal)
                     }

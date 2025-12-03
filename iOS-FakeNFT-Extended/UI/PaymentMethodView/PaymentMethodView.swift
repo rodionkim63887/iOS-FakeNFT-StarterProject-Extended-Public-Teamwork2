@@ -2,7 +2,7 @@ import SwiftUI
 
 struct PaymentMethodView: View {
     @Environment(Router.self) private var router
-    @State private var selectedCurrency: Currency? = nil
+    @State private var selectedCurrency: Currency?
     private let orderService = OrderServiceImpl(networkClient: DefaultNetworkClient())
     let currencies: [Currency]
     private let columns = [GridItem(.flexible()), GridItem(.flexible())]

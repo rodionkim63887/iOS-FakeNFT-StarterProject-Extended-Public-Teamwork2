@@ -7,7 +7,7 @@ final class CartViewModel {
     var nftToDelete: Nft?
     
     var nftToDeleteImage: String {
-       nftToDelete?.images[0] ?? ""
+       nftToDelete?.imagesUrlsString[0] ?? ""
     }
     
     func tryDeletingFromCart(nft: Nft) {

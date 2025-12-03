@@ -1,13 +1,13 @@
 import SwiftUI
 
 @Observable
-class CartStore {
+final class CartStore {
     var items: [Nft] = [Nft(id: "7773e33c-ec15-4230-a102-92426a3a6d5a",
                             name: "Rosario Dejesus",
                             description: "explicari lobortis rutrum evertitur fugit convenire ligula",
                             author: "https://unruffled_cohen.fakenfts.org/",
                             price: 28.27,
-                            images: [
+                            imagesUrlsString: [
                                 "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Finn/1.png",
                                 "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Finn/2.png",
                                 "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Finn/3.png"
@@ -19,12 +19,16 @@ class CartStore {
     var nftToDelete: Nft?
     
     var nftToDeleteImage: URL? {
-        guard let urlString = nftToDelete?.images[0],
+        guard let urlString = nftToDelete?.imagesUrlsString[0],
               let url = URL(string: urlString) else {
             return nil
         }
         
         return url
+    }
+    
+    var totalPrice: Float {
+        items.reduce(0) { $0 + $1.price }
     }
     
     func tryDeletingFromCart(nft: Nft) {
@@ -47,7 +51,7 @@ class CartStore {
         withAnimation(.easeInOut) {
             deletingAttempt = false
             blur = 0
-            self.nftToDelete = nil
+            nftToDelete = nil
         }
     }
 
@@ -59,9 +63,5 @@ class CartStore {
 
     func remove(_ nft: Nft) {
         items.removeAll { $0.id == nft.id }
-    }
-    
-    func getTotalPrice() -> Float {
-        return items.reduce(0) { $0 + $1.price }
     }
 }

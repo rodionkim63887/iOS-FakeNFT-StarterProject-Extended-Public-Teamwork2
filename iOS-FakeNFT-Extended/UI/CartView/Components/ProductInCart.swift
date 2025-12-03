@@ -11,7 +11,7 @@ struct ProductInCart: View {
                 .ignoresSafeArea()
             
             HStack(spacing: 20) {
-                KFImage(URL(string: nft.images[0]))
+                KFImage(URL(string: nft.imagesUrlsString[0]))
                     .resizable()
                     .scaledToFit()
                     .clipShape(

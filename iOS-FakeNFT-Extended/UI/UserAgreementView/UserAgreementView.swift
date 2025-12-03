@@ -18,8 +18,12 @@ struct UserAgreementView: View {
                 Spacer()
             }
             
-            WebView(url: URL(string: "https://yandex.ru/legal/practicum_termsofuse")!)
-                .ignoresSafeArea()
+            if let url = URL(string: "https://yandex.ru/legal/practicum_termsofuse") {
+                WebView(url: url)
+                    .ignoresSafeArea()
+            } else {
+                Text("Некорректный URL")
+            }
         }
     }
 }
