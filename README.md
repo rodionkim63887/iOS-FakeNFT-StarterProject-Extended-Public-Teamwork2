@@ -1,7 +1,3 @@
 ## Скринкасты
 
-### Корзина
-
-##### Алексей Непряхин
-
-[Корзина](Screencasts/CartComponent.mov)
+[Корзина - Алексей Непряхин](Screencasts/CartComponent.mov)
