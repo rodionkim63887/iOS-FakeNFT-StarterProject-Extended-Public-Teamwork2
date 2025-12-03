@@ -1,11 +1,7 @@
 import Foundation
 
 protocol CollectionService {
-    func loadCollections(
-        page: Int,
-        size: Int,
-        sortBy: String?
-    ) async throws -> [NftCollection]
+    func loadCollections() async throws -> [NftCollection]
 }
 
 @MainActor
@@ -17,13 +13,9 @@ final class CollectionServiceImpl: CollectionService {
         self.networkClient = networkClient
     }
     
-    func loadCollections(
-        page: Int,
-        size: Int,
-        sortBy: String?
-    ) async throws -> [NftCollection] {
+    func loadCollections() async throws -> [NftCollection] {
         
-        let request = GetNftCollecionRequest(page: page, size: size, soryBy: sortBy)
+        let request = GetNftCollecionRequest(page: 0, size: 10, sortBy: nil)
         return try await networkClient.send(request: request)
     }
 }
