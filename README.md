@@ -1,0 +1,1 @@
+![Корзина](Screencasts/CartComponent.gif)
