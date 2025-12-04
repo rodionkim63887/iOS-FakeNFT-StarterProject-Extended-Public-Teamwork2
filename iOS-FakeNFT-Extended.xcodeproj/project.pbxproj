@@ -161,6 +161,7 @@
 		06D9ED3B2EC3824100953E14 /* CartView */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = CartView; sourceTree = "<group>"; };
 		06D9EDF62EC4B81700953E14 /* Components */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Components; sourceTree = "<group>"; };
 		06D9EDFA2EC4B87300953E14 /* Extensions */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Extensions; sourceTree = "<group>"; };
+		97CFE3A62ED46F0400805945 /* NftCollections */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = NftCollections; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -369,6 +370,7 @@
 				061E155B2ED36E57005EB02C /* PaymentMethodView */,
 				06D9EDF62EC4B81700953E14 /* Components */,
 				06D9ED3B2EC3824100953E14 /* CartView */,
+				97CFE3A62ED46F0400805945 /* NftCollections */,
 				ABC5E16D2C31F5AF002B4068 /* ContentView.swift */,
 				ABC5E1B42C31FC57002B4068 /* TabBarView.swift */,
 				ABC5E1B82C31FD51002B4068 /* TestCatalogView.swift */,
@@ -436,6 +438,7 @@
 				06D9ED3B2EC3824100953E14 /* CartView */,
 				06D9EDF62EC4B81700953E14 /* Components */,
 				06D9EDFA2EC4B87300953E14 /* Extensions */,
+				97CFE3A62ED46F0400805945 /* NftCollections */,
 			);
 			name = "iOS-FakeNFT-Extended";
 			packageProductDependencies = (
