@@ -14,6 +14,7 @@ extension Color {
     static let blackUniversalColor = Color("blackUniversalColor")
     static let whiteUniversalColor = Color("whiteUniversalColor")
     static let yellowUniversalColor = Color("yellowUniversalColor")
+    static let labelColor = Color("labelColor")
 }
 
 extension UIColor {
