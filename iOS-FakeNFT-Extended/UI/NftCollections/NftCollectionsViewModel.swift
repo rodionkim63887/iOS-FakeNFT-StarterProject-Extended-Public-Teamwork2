@@ -55,4 +55,16 @@ final class NftCollectionsViewModel {
         
         isLoading = false
     }
+    
+    func retry() async {
+        await loadCollections()
+    }
+    
+    func sortByName() {
+        collections.sort { $0.title.localizedCompare($1.title) == .orderedAscending }
+    }
+    
+    func sortByItemsCount() {
+        collections.sort { $0.itemsCount > $1.itemsCount }
+    }
 }
