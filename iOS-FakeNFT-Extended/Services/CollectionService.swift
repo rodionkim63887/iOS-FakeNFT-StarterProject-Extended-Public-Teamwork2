@@ -16,6 +16,7 @@ final class CollectionServiceImpl: CollectionService {
     func loadCollections() async throws -> [NftCollection] {
         
         let request = GetNftCollecionRequest(page: 0, size: 10, sortBy: nil)
+        
         return try await networkClient.send(request: request)
     }
 }

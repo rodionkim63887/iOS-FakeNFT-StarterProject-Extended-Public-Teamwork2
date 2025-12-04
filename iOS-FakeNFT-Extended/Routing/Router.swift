@@ -4,7 +4,9 @@ import SwiftUI
 @Observable
 final class Router {
     enum Route: Hashable {
-        case nftDetailBridge
+        case paymentMethod(currencies: [Currency])
+        case successfulPayment
+        case userAgreementView
     }
     
     var path = NavigationPath()
@@ -12,8 +14,12 @@ final class Router {
     @ViewBuilder
     func view(for route: Route) -> some View {
         switch route {
-        case .nftDetailBridge:              //Тестовый кейс. Можно убрать, как только добавите хотя бы один свой.
-            NftDetailBridgeView()
+        case .paymentMethod(let currencies):
+            PaymentMethodView(currencies: currencies)
+        case .successfulPayment:
+            SuccessfulPaymentView()
+        case .userAgreementView:
+            UserAgreementView()
         }
     }
     
