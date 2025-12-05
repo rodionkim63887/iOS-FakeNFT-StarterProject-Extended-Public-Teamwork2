@@ -6,6 +6,6 @@ struct NftCollection: Decodable, Identifiable {
     let cover: String
     let description: String
     let author: String
-    let createdAt: Date
+    let createdAt: String
     let nfts: [String]
 }
