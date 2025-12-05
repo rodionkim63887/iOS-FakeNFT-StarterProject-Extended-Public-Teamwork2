@@ -1,6 +1,6 @@
 import Foundation
 
-final class MockCollectionService: CollectionService {
+final class MockCollectionService: CollectionsService {
     func loadCollections() async throws -> [NftCollection] {
         return [
             NftCollection(
@@ -9,7 +9,7 @@ final class MockCollectionService: CollectionService {
                 cover: "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/Peach.png",
                 description: "",
                 author: "Me",
-                createdAt: .now,
+                createdAt: "1984",
                 nfts: ["1", "2"]
             ),
             NftCollection(
@@ -18,7 +18,7 @@ final class MockCollectionService: CollectionService {
                 cover: "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/Brown.png",
                 description: "",
                 author: "Me",
-                createdAt: .now,
+                createdAt: "1985",
                 nfts: ["1", "2", "3", "4"]
             ),
             NftCollection(
@@ -27,14 +27,14 @@ final class MockCollectionService: CollectionService {
                 cover: "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/White.png",
                 description: "",
                 author: "Me",
-                createdAt: .now,
+                createdAt: "1986",
                 nfts: ["1", "2", "3"]
             ),
         ]
     }
 }
 
-final class MockErrorCollectionService: CollectionService {
+final class MockErrorCollectionService: CollectionsService {
     func loadCollections() async throws -> [NftCollection] {
         throw URLError(.badServerResponse)
     }
