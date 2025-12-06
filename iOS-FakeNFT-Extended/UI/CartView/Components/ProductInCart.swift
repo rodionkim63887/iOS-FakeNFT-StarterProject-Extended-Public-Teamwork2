@@ -25,8 +25,8 @@ struct ProductInCart: View {
                         .lineLimit(1)
 //                        .layoutPriority(1)
                     
-                    ratingScale
-                    
+                    NftRatingView(rating: Int(nft.rating))
+
                     Spacer()
                     
                     Text("Цена")
@@ -53,26 +53,6 @@ struct ProductInCart: View {
             }
             .frame(height: 108)
                 
-        }
-    }
-    
-    private var ratingScale: some View {
-        HStack(spacing: 2) {
-            let starsCount = Int(nft.rating)
-            
-            ForEach(0..<starsCount, id: \.self) { _ in
-                Image(systemName: "star.fill")
-                    .resizable()
-                    .frame(width: 12, height: 12)
-                    .foregroundStyle(Color.yellowUniversalColor)
-            }
-            
-            ForEach(0..<(5 - starsCount), id: \.self) { _ in
-                Image(systemName: "star.fill")
-                    .resizable()
-                    .frame(width: 12, height: 12)
-                    .foregroundStyle(Color.lightGreyColor)
-            }
         }
     }
 }
