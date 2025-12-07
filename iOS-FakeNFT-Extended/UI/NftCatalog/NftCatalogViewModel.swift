@@ -28,18 +28,44 @@ struct NftCollectionViewData: Identifiable {
     }
 }
 
+enum NftSortType: String {
+    case name
+    case itemsCount
+}
+
 @Observable
 @MainActor
 final class NftCatalogViewModel {
     
     private let service: CollectionsService
+    private let sortKey = "nft_catalog_sort_type"
     
     var collections: [NftCollectionViewData] = []
     var isLoading = false
     var errorMessage: String? = nil
     
+    var sortType: NftSortType {
+        didSet { UserDefaults.standard.set(sortType.rawValue, forKey: sortKey) }
+    }
+    
     init(service: CollectionsService) {
         self.service = service
+        
+        if let raw = UserDefaults.standard.string(forKey: sortKey),
+           let saved = NftSortType(rawValue: raw) {
+            self.sortType = saved
+        } else {
+            self.sortType = .name
+        }
+    }
+    
+    private func applySorting() {
+        switch sortType {
+        case .name:
+            sortByName()
+        case .itemsCount:
+            sortByItemsCount()
+        }
     }
     
     func loadCollections() async {
@@ -48,6 +74,7 @@ final class NftCatalogViewModel {
         do {
             let result = try await service.loadCollections()
             collections = result.map { NftCollectionViewData(model: $0) }
+            applySorting()
         } catch {
             errorMessage = error.localizedDescription
             collections = []
@@ -61,10 +88,12 @@ final class NftCatalogViewModel {
     }
     
     func sortByName() {
+        sortType = .name
         collections.sort { $0.title.localizedCompare($1.title) == .orderedAscending }
     }
     
     func sortByItemsCount() {
+        sortType = .itemsCount
         collections.sort { $0.itemsCount > $1.itemsCount }
     }
 }
