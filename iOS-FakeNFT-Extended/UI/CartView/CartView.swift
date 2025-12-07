@@ -41,7 +41,7 @@ struct CartView: View {
             Button {
                 showingOptions = true
             } label: {
-                Image("SortCart")
+                Image("MenuButton")
                     .frame(width: 42, height: 42)
                     .foregroundStyle(Color.accentColor)
             }
