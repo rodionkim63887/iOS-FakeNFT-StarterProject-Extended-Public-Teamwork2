@@ -73,7 +73,7 @@ struct NftCollectionDetailView: View {
                 Text("Автор коллекции:")
                     .font(.regular13)
                 Button {
-                    
+                    router.push(.userAgreementView)
                 } label: {
                     Text(collection.author ?? "John Doe")
                         .font(.regular15)
