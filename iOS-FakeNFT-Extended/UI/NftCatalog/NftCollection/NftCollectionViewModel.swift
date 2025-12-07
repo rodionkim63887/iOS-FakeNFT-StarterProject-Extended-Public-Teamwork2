@@ -5,11 +5,12 @@ import Observation
 @MainActor
 final class NftCollectionViewModel {
     
-    private let nftIds: [String]
     private var service: NftService
     
+    let nftIds: [String]
     var nfts: [Nft] = []
     var isLoading: Bool = false
+    var errorMessage: String? = nil
     
     init(
         service: NftService,
@@ -30,16 +31,17 @@ final class NftCollectionViewModel {
                 let nft = try await service.loadNft(id: id)
                 loaded.append(nft)
             } catch {
-                print("Failed to load NFT:", id, "error:", error)
+                errorMessage = error.localizedDescription
+                nfts = []
             }
         }
         
         nfts = loaded
-        
-        print(nfts)
+    }
+    
+    func retry() async {
+        await loadNfts()
     }
     
     func toggleLike(for id: String) {} // TODO: in sprint_03
-    
-    func toggleInCart(fot id: String) {} // TODO: in sprint_03
 }
