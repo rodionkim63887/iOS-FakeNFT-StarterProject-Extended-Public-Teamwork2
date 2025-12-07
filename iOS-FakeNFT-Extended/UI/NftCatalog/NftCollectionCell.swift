@@ -18,6 +18,7 @@ struct NftCollectionCell: View {
             
             Text("\(nftCollection.title) (\(nftCollection.itemsCount))")
                 .font(.bold17)
+                .foregroundStyle(.blackUniversal)
         }
         .padding(.vertical, 6)
     }
