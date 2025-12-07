@@ -16,7 +16,7 @@ struct NftCatalogView: View {
             Group {
                 VStack {
                     headerView
-                    collectionsScrollView
+                    collectionsList
                 }
             }
             .task {
@@ -79,21 +79,15 @@ struct NftCatalogView: View {
         .padding(.horizontal, 20)
     }
     
-    private var collectionsScrollView: some View {
-        ScrollView {
-            VStack {
-                Spacer()
-                    .frame(height: 20)
-                
-                LazyVStack {
-                    ForEach(viewModel.collections) { collection in
-                        NftCollectionCell(nftCollection: collection)
-                            .padding(.horizontal, 16)
-                    }
-                }
+    private var collectionsList: some View {
+        List {
+            ForEach(viewModel.collections) { collection in
+                NftCollectionCell(nftCollection: collection)
+                    .listRowSeparator(.hidden)
+                    .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
             }
-            
         }
+        .listStyle(.plain)
     }
 }
 
