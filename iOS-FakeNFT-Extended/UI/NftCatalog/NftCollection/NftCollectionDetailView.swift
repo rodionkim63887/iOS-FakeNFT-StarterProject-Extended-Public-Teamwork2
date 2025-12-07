@@ -1,10 +1,11 @@
 import SwiftUI
-import Kingfisher
+import ProgressHUD
 
 struct NftCollectionDetailView: View {
     @Environment(Router.self) private var router
     
     @State private var viewModel: NftCollectionViewModel
+    @State private var showError = false
     
     let collection: NftCollectionViewData
     
@@ -15,14 +16,23 @@ struct NftCollectionDetailView: View {
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 16) {
+            VStack(spacing: 0) {
                 titleImage
-                
                 collectionInfo
             }
         }
         .task {
             await viewModel.loadNfts()
+        }
+        .onChange(of: viewModel.isLoading) { _, isLoading in
+            if isLoading {
+                ProgressHUD.animate()
+            } else {
+                ProgressHUD.dismiss()
+            }
+        }
+        .onChange(of: viewModel.errorMessage) { _, message in
+            showError = message != nil
         }
         .ignoresSafeArea(edges: .top)
         .toolbar {
@@ -37,14 +47,19 @@ struct NftCollectionDetailView: View {
             }
         }
         .toolbarBackground(.clear, for: .navigationBar)
+        .networkErrorAlert(
+            isPresented: $showError,
+            retry: { await viewModel.retry() }
+        )
     }
     
     private var titleImage: some View {
-        KFImage(collection.imageUrl)
-            .resizable()
-            .scaledToFill()
-            .frame(height: 310)
-            .cornerRadius(12)
+        KFImageView(
+            url: collection.imageUrl,
+            contentMode: .fill,
+            height: 310,
+            cornerRadius: 12
+        )
     }
     
     private var collectionInfo: some View {
@@ -69,46 +84,39 @@ struct NftCollectionDetailView: View {
             Text(collection.description ?? "")
                 .font(.regular13)
                 .foregroundStyle(.blackUniversal)
+                .padding(.bottom, 16)
             
             nftSection
         }
+        .padding(16)
     }
     
     private var nftSection: some View {
-        NftGridView(nfts: viewModel.nfts)
+        NftGridView(viewModel: viewModel)
     }
 }
 
-#Preview("Collection Detail") {
-    let previewServices = ServicesAssembly(
-        networkClient: DefaultNetworkClient(),
-        nftStorage: NftStorageImpl()
-    )
-    
+#Preview("Collection Detail (Mock)") {
+    let mockService = MockNftService()
+
     let previewCollection = NftCollectionViewData(
         id: "123",
-        title: "Singulis Epicuri",
-        imageUrl: URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/Brown.png"),
-        itemsCount: 3,
-        description: "Curabitur feugait a definitiones singulis movet eros aeque mucius evertitur assueverit et eam.",
-        author: "Lourdes Harper",
-        nftIds: [
-            "c14cf3bc-7470-4eec-8a42-5eaa65f4053c",
-            "d6a02bd1-1255-46cd-815b-656174c1d9c0",
-            "f380f245-0264-4b42-8e7e-c4486e237504"
-        ]
+        title: "Peach Demo",
+        imageUrl: URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/Peach.png"),
+        itemsCount: 4,
+        description: "curabitur feugait a definitiones singulis movet eros aeque mucius evertitur assueverit et eam",
+        author: "John Doe",
+        nftIds: PreviewNfts.map { $0.id }
     )
-    
-    let previewVM = NftCollectionViewModel(
-        service: previewServices.nftService,
+
+    let vm = NftCollectionViewModel(
+        service: mockService,
         nftIds: previewCollection.nftIds
     )
-    
+
     NavigationStack {
-        NftCollectionDetailView(
-            collection: previewCollection,
-            viewModel: previewVM
-        )
+        NftCollectionDetailView(collection: previewCollection, viewModel: vm)
     }
     .environment(Router())
+    .environment(CartStore())
 }
