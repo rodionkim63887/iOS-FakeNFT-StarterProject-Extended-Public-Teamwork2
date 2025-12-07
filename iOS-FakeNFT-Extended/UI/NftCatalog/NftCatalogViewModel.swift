@@ -1,17 +1,23 @@
 import Foundation
 import Observation
 
-struct NftCollectionViewData: Identifiable {
+struct NftCollectionViewData: Identifiable, Hashable {
     let id: String
     let title: String
     let imageUrl: URL?
     let itemsCount: Int
+    let description: String?
+    let author: String?
+    let nftIds: [String]
     
     init(model: NftCollection) {
         self.id = model.id
         self.title = model.name
         self.imageUrl = URL(string: model.cover)
         self.itemsCount = model.nfts.count
+        self.description = model.description
+        self.author = model.author
+        self.nftIds = model.nfts
     }
     
     // Preview init()
@@ -19,12 +25,18 @@ struct NftCollectionViewData: Identifiable {
         id: String,
         title: String,
         imageUrl: URL?,
-        itemsCount: Int
+        itemsCount: Int,
+        description: String? = nil,
+        author: String? = nil,
+        nftIds: [String] = []
     ) {
         self.id = id
         self.title = title
         self.imageUrl = imageUrl
         self.itemsCount = itemsCount
+        self.description = description
+        self.author = author
+        self.nftIds = nftIds
     }
 }
 
