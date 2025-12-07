@@ -32,21 +32,10 @@ struct NftCatalogView: View {
             .onChange(of: viewModel.errorMessage) { _, message in
                 showError = message != nil
             }
-            .alert(isPresented: $showError) {
-                Alert(
-                    title: Text("Не удалось получить данные"),
-                    primaryButton: .default(
-                        Text("Повторить")
-                    ) {
-                        Task {
-                            await viewModel.retry()
-                        }
-                    },
-                    secondaryButton: .cancel(
-                        Text("Отмена")
-                    )
-                )
-            }
+            .networkErrorAlert(
+                isPresented: $showError,
+                retry: { await viewModel.retry() }
+            )
             
             if showSortMenu {
                 VStack {
