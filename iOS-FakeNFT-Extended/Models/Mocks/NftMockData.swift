@@ -7,7 +7,7 @@ enum MockNftData {
         description: "explicari lobortis rutrum evertitur fugit convenire ligula",
         author: "https://unruffled_cohen.fakenfts.org/",
         price: 28.27,
-        imagesUrlsString: [
+        images: [
             "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Finn/1.png",
             "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Finn/2.png",
             "https://code.s3.yandex.net/Mobile/iOS/NFT/Beige/Finn/3.png"
@@ -22,7 +22,7 @@ enum MockNftData {
         description: "eos habeo percipit duis malesuada",
         author: "https://exciting_pare.fakenfts.org/",
         price: 11.14,
-        imagesUrlsString: [
+        images: [
             "https://code.s3.yandex.net/Mobile/iOS/NFT/Blue/Clover/1.png",
             "https://code.s3.yandex.net/Mobile/iOS/NFT/Blue/Clover/2.png",
             "https://code.s3.yandex.net/Mobile/iOS/NFT/Blue/Clover/3.png"

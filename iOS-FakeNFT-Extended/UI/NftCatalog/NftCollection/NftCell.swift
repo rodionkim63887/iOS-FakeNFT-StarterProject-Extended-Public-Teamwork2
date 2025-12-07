@@ -25,7 +25,7 @@ struct NftCell: View {
     }
     
     private var titleImage: some View {
-        KFImage(URL(string: nft.imagesUrlsString[0]))
+        KFImage(URL(string: nft.images[0]))
             .resizable()
             .aspectRatio(contentMode: .fit)
             .cornerRadius(12)

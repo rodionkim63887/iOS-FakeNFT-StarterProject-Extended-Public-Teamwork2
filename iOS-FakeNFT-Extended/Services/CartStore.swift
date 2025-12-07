@@ -9,7 +9,7 @@ final class CartStore {
     var nftToDelete: Nft?
     
     var nftToDeleteImage: URL? {
-        guard let urlString = nftToDelete?.imagesUrlsString.first,
+        guard let urlString = nftToDelete?.images.first,
               let url = URL(string: urlString) else { return nil }
         return url
     }
