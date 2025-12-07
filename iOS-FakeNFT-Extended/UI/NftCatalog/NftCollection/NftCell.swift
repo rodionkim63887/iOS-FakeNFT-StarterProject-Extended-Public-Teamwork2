@@ -25,13 +25,15 @@ struct NftCell: View {
     }
     
     private var titleImage: some View {
-        KFImage(URL(string: nft.images[0]))
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .cornerRadius(12)
-            .overlay(alignment: .topTrailing) {
-                toggleLikeButton
-            }
+        KFImageView(
+            url: URL(string: nft.images.first ?? ""),
+            contentMode: .fit,
+            height: nil,
+            cornerRadius: 12,
+        )
+        .overlay(alignment: .topTrailing) {
+            toggleLikeButton
+        }
     }
     
     private var toggleLikeButton: some View {
@@ -90,5 +92,4 @@ struct NftCell: View {
     }
     .environment(CartStore())
     .padding()
-    .previewLayout(.sizeThatFits)
 }
