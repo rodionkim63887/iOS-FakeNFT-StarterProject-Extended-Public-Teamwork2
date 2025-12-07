@@ -14,10 +14,11 @@ struct NftCollectionViewData: Identifiable, Hashable {
         self.id = model.id
         self.title = model.name
         self.imageUrl = URL(string: model.cover)
-        self.itemsCount = model.nfts.count
+        let uniqueIds = Array(Set(model.nfts))
+        self.itemsCount = uniqueIds.count
         self.description = model.description
         self.author = model.author
-        self.nftIds = model.nfts
+        self.nftIds = uniqueIds
     }
     
     // Preview init()
