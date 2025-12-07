@@ -1,27 +1,41 @@
 import SwiftUI
 
 struct NftGridView: View {
-    let nfts: [Nft]
-
-    private let columns = [
-        GridItem(.flexible(), spacing: 12),
-        GridItem(.flexible(), spacing: 12),
-        GridItem(.flexible(), spacing: 12)
-    ]
+    
+    @Bindable var viewModel: NftCollectionViewModel
+    
+    private let columnSpacing: CGFloat = 9
+    private let columnsCount: Int = 3
+    
+    private var columns: [GridItem] {
+        Array(
+            repeating: GridItem(.flexible(), spacing: columnSpacing),
+            count: columnsCount
+        )
+    }
     
     var body: some View {
-        LazyVGrid(columns: columns, spacing: 16) {
-            ForEach(nfts) { nft in
-                NftCell(nft: nft)
-                    .frame(width: cellWidth)
+        LazyVGrid(columns: columns, spacing: 28) {
+            if viewModel.isLoading {
+                let nftsCount = viewModel.nftIds.count
+                
+                ForEach(0..<nftsCount, id: \.self) { _ in
+                    placeholderCell
+                }
+            } else {
+                ForEach(viewModel.nfts) { nft in
+                    NftCell(nft: nft)
+                }
             }
         }
     }
-
-    private var cellWidth: CGFloat {
-        let screenWidth = UIScreen.main.bounds.width
-        let horizontalPadding: CGFloat = 16 * 2
-        let columnSpacing: CGFloat = 12 * 2
-        return (screenWidth - horizontalPadding - columnSpacing) / 3
+    
+    private var placeholderCell: some View {
+        VStack(spacing: 8) {
+            ProgressView()
+                .progressViewStyle(.circular)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 52)
+        }
     }
 }
