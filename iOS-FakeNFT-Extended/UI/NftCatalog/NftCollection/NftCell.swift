@@ -2,9 +2,12 @@ import SwiftUI
 import Kingfisher
 
 struct NftCell: View {
-    @Environment(CartStore.self) private var cart
     
     let nft: Nft
+    let isLiked: Bool
+    let isInCart: Bool
+    let onToggleLike: () -> Void
+    let onToggleCart: () -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -32,22 +35,8 @@ struct NftCell: View {
             cornerRadius: 12,
         )
         .overlay(alignment: .topTrailing) {
-            toggleLikeButton
+            LikeToggleButton(isLiked: isLiked, action: onToggleLike)
         }
-    }
-    
-    private var toggleLikeButton: some View {
-        Button() {
-            print("Toggle like!")
-            // TODO: Implement favorites functionality within UserProfile
-        } label: {
-            Image(systemName: "heart.fill")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 18)
-                .foregroundStyle(Color(.whiteUniversal))
-        }
-        .frame(width: 42, height: 42)
     }
     
     private var nftTitle: some View {
@@ -62,18 +51,29 @@ struct NftCell: View {
     }
     
     private var toggleCartButton: some View {
-        CartToggleButton(nft: nft)
+        CartToggleButton(isInCart: isInCart, onToggle: onToggleCart)
     }
 }
 
 #Preview("Two NFT Cells") {
     HStack(spacing: 16) {
-        NftCell(nft: MockNftData.nft1)
-            .frame(width: 108)
-        
-        NftCell(nft: MockNftData.nft2)
-            .frame(width: 108)
+        NftCell(
+            nft: MockNftData.nft1,
+            isLiked: true,
+            isInCart: false,
+            onToggleLike: {},
+            onToggleCart: {}
+        )
+        .frame(width: 108)
+
+        NftCell(
+            nft: MockNftData.nft2,
+            isLiked: false,
+            isInCart: true,
+            onToggleLike: {},
+            onToggleCart: {}
+        )
+        .frame(width: 108)
     }
-    .environment(CartStore())
     .padding()
 }

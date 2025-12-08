@@ -24,7 +24,13 @@ struct NftGridView: View {
                 }
             } else {
                 ForEach(viewModel.nfts) { nft in
-                    NftCell(nft: nft)
+                    NftCell(
+                        nft: nft,
+                        isLiked: viewModel.isLiked(nft.id),
+                        isInCart: viewModel.isInCart(nft),
+                        onToggleLike: { viewModel.toggleLike(for: nft.id) },
+                        onToggleCart: { viewModel.toggleCart(nft) }
+                    )
                 }
             }
         }
