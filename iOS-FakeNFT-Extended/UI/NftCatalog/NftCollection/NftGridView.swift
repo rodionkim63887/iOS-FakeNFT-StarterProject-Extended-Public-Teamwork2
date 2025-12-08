@@ -2,7 +2,11 @@ import SwiftUI
 
 struct NftGridView: View {
     
+    @Environment(Router.self) private var router
+    
     @Bindable var viewModel: NftCollectionViewModel
+    
+    @State private var selectedNftId: String? = nil
     
     private let columnSpacing: CGFloat = 9
     private let columnsCount: Int = 3
@@ -24,15 +28,23 @@ struct NftGridView: View {
                 }
             } else {
                 ForEach(viewModel.nfts) { nft in
-                    NftCell(
-                        nft: nft,
-                        isLiked: viewModel.isLiked(nft.id),
-                        isInCart: viewModel.isInCart(nft),
-                        onToggleLike: { viewModel.toggleLike(for: nft.id) },
-                        onToggleCart: { viewModel.toggleCart(nft) }
-                    )
+                    Button {
+                        selectedNftId = nft.id
+                    } label: {
+                        NftCell(
+                            nft: nft,
+                            isLiked: viewModel.isLiked(nft.id),
+                            isInCart: viewModel.isInCart(nft),
+                            onToggleLike: { viewModel.toggleLike(for: nft.id) },
+                            onToggleCart: { viewModel.toggleCart(nft) }
+                        )
+                    }
+                    .buttonStyle(.plain)
                 }
             }
+        }
+        .sheet(item: $selectedNftId) { id in
+            NftDetailBridgeView(id: id)
         }
     }
     
