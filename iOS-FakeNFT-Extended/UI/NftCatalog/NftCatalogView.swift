@@ -3,6 +3,8 @@ import ProgressHUD
 
 struct NftCatalogView: View {
     
+    @Environment(Router.self) private var router
+
     @State private var viewModel: NftCatalogViewModel
     @State private var showError = false
     @State private var showSortMenu = false
@@ -57,23 +59,24 @@ struct NftCatalogView: View {
             Button {
                 showSortMenu = true
             } label: {
-                Image("MenuButton")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 21)
-                    .foregroundStyle(.black)
+                MenuButtonImage()
             }
+            .padding(.trailing, 9)
         }
-        .padding(.top, 2)
-        .padding(.horizontal, 20)
     }
     
     private var collectionsList: some View {
         List {
             ForEach(viewModel.collections) { collection in
-                NftCollectionCell(nftCollection: collection)
-                    .listRowSeparator(.hidden)
-                    .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+                Button {
+                    router.push(.nftCollectionDetail(collection: collection))
+                } label: {
+                    NftCollectionCell(nftCollection: collection)
+                        .padding(.horizontal, 16)
+                }
+                .buttonStyle(.plain)
+                .listRowSeparator(.hidden)
+                .listRowInsets(EdgeInsets())
             }
         }
         .listStyle(.plain)
@@ -87,6 +90,7 @@ struct NftCatalogView: View {
             service: MockCollectionService()
         )
     )
+    .environment(Router())
 }
 
 #Preview("Error") {
@@ -96,4 +100,5 @@ struct NftCatalogView: View {
             
         )
     )
+    .environment(Router())
 }
