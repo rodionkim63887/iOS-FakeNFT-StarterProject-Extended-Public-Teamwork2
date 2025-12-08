@@ -98,7 +98,7 @@ struct NftCollectionDetailView: View {
 
 #Preview("Collection Detail (Mock)") {
     let mockService = MockNftService()
-
+    
     let previewCollection = NftCollectionViewData(
         id: "123",
         title: "Peach Demo",
@@ -108,15 +108,33 @@ struct NftCollectionDetailView: View {
         author: "John Doe",
         nftIds: PreviewNfts.map { $0.id }
     )
-
+    
+    let cartStore = CartStore()
+    
+    let profileStore = UserProfileStore()
+    profileStore.likedIds = Set([
+        PreviewNfts[0].id,
+        PreviewNfts[2].id
+    ])
+    
+    let likesManager = UserLikesManager(
+        store: profileStore,
+        service: MockUserProfileService()
+    )
+    
     let vm = NftCollectionViewModel(
         service: mockService,
-        nftIds: previewCollection.nftIds
+        nftIds: previewCollection.nftIds,
+        likesManager: likesManager,
+        userStore: profileStore,
+        cartStore: cartStore
     )
-
-    NavigationStack {
+    
+    return NavigationStack {
         NftCollectionDetailView(collection: previewCollection, viewModel: vm)
     }
     .environment(Router())
-    .environment(CartStore())
+    .environment(cartStore)
+    .environment(profileStore)
+    .environment(likesManager)
 }
