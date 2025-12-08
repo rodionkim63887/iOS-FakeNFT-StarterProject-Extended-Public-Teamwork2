@@ -107,6 +107,13 @@ final class NftCatalogViewModel {
     
     func sortByItemsCount() {
         sortType = .itemsCount
-        collections.sort { $0.itemsCount > $1.itemsCount }
+        collections.sort {
+            if $0.itemsCount == $1.itemsCount {
+                return $0.title.localizedCompare($1.title) == .orderedAscending
+            }
+            
+            return $0.itemsCount > $1.itemsCount
+        }
     }
 }
+
