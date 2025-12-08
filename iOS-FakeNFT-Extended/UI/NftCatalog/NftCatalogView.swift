@@ -38,14 +38,13 @@ struct NftCatalogView: View {
                 isPresented: $showError,
                 retry: { await viewModel.retry() }
             )
-            
-            if showSortMenu {
-                VStack {
-                    SortMenuOverlay(
-                        showMenu: $showSortMenu,
-                        sortByName: { viewModel.sortByName() },
-                        sortByCount: { viewModel.sortByItemsCount() }
-                    )
+            .confirmationDialog("Сортировка", isPresented: $showSortMenu, titleVisibility: .visible) {
+                Button("По названию") {
+                    viewModel.sortByName()
+                }
+                
+                Button("По количеству NFT") {
+                    viewModel.sortByItemsCount()
                 }
             }
         }
