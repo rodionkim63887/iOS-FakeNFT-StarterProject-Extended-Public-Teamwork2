@@ -17,8 +17,6 @@ final class UserLikesManager {
     func initialize(from profile: UserProfile) {
         store.likedIds = Set(profile.likes)
         pendingLikes = store.likedIds
-        
-        print("Likes manager initialized with \(profile.likes.count) likes.")
     }
     
     func toggleLike(id: String) {
@@ -39,7 +37,6 @@ final class UserLikesManager {
         isUpdating = true
         
         let likesToSend = pendingLikes
-        print("Sending likes:", Array(likesToSend))
         do {
             let updated = try await service.updateUserLikes(Array(likesToSend))
             store.likedIds = Set(updated.likes)
