@@ -3,6 +3,7 @@ import Kingfisher
 
 struct ProductInCart: View {
     @Environment(CartStore.self) private var cart
+    
     let nft: Nft
     
     var body: some View {
@@ -23,10 +24,9 @@ struct ProductInCart: View {
                         .font(.bold17)
                         .foregroundStyle(Color.accentColor)
                         .lineLimit(1)
-//                        .layoutPriority(1)
                     
                     NftRatingView(rating: Int(nft.rating))
-
+                    
                     Spacer()
                     
                     Text("Цена")
@@ -41,10 +41,12 @@ struct ProductInCart: View {
                 
                 Spacer()
                 
-                CartToggleButton(nft: nft)
+                CartToggleButton(
+                    isInCart: cart.items.contains(where: { $0.id == nft.id }),
+                    onToggle: { cart.tryDeletingFromCart(nft: nft) }
+                )
             }
             .frame(height: 108)
-                
         }
     }
 }

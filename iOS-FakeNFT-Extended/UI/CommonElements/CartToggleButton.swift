@@ -1,39 +1,23 @@
 import SwiftUI
 
 struct CartToggleButton: View {
-    @Environment(CartStore.self) private var cart
-    
-    let nft: Nft
+    let isInCart: Bool
     let size: CGFloat
+    let onToggle: () -> Void
     
-    init(nft: Nft, size: CGFloat = 16) {
-        self.nft = nft
+    init(isInCart: Bool, size: CGFloat = 16, onToggle: @escaping () -> Void) {
+        self.isInCart = isInCart
         self.size = size
+        self.onToggle = onToggle
     }
     
     var body: some View {
-        Button {
-            toggle()
-        } label: {
-            Image(iconName)
+        Button(action: onToggle) {
+            Image(isInCart ? "DeleteFromCart" : "AddToCart")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: size)
                 .foregroundStyle(Color(.blackUniversal))
-        }
-    }
-    
-    private var iconName: String {
-        cart.items.contains(where: { $0.id == nft.id })
-        ? "DeleteFromCart"
-        : "AddToCart"
-    }
-    
-    private func toggle() {
-        if cart.items.contains(where: { $0.id == nft.id }) {
-            cart.remove(nft)
-        } else {
-            cart.add(nft)
         }
     }
 }
