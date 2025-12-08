@@ -41,15 +41,7 @@ struct ProductInCart: View {
                 
                 Spacer()
                 
-                Button {
-                    print("Delete")
-                    cart.tryDeletingFromCart(nft: nft)
-                } label: {
-                    Image("DeleteFromCart")
-                        .frame(width: 40, height: 40)
-                        .foregroundStyle(Color.accentColor)
-                }
-                .buttonStyle(.plain)
+                CartToggleButton(nft: nft)
             }
             .frame(height: 108)
                 

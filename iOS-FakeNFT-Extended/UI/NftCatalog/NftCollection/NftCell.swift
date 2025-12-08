@@ -62,23 +62,7 @@ struct NftCell: View {
     }
     
     private var toggleCartButton: some View {
-        Button() {
-            if cart.items.contains(where: { $0.id == nft.id }) {
-                cart.remove(nft)
-            } else {
-                cart.add(nft)
-            }
-        } label: {
-            Image(
-                cart.items.contains(where: { $0.id == nft.id })
-                ? "DeleteFromCart"
-                : "AddToCart"
-            )
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(width: 16)
-            .foregroundStyle(Color(.blackUniversal))
-        }
+        CartToggleButton(nft: nft)
     }
 }
 
