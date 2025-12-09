@@ -1,17 +1,24 @@
 import Foundation
 import Observation
 
-struct NftCollectionViewData: Identifiable {
+struct NftCollectionViewData: Identifiable, Hashable {
     let id: String
     let title: String
     let imageUrl: URL?
     let itemsCount: Int
+    let description: String?
+    let author: String?
+    let nftIds: [String]
     
     init(model: NftCollection) {
         self.id = model.id
         self.title = model.name
         self.imageUrl = URL(string: model.cover)
-        self.itemsCount = model.nfts.count
+        let uniqueIds = Array(Set(model.nfts))
+        self.itemsCount = uniqueIds.count
+        self.description = model.description
+        self.author = model.author
+        self.nftIds = uniqueIds
     }
     
     // Preview init()
@@ -19,12 +26,18 @@ struct NftCollectionViewData: Identifiable {
         id: String,
         title: String,
         imageUrl: URL?,
-        itemsCount: Int
+        itemsCount: Int,
+        description: String? = nil,
+        author: String? = nil,
+        nftIds: [String] = []
     ) {
         self.id = id
         self.title = title
         self.imageUrl = imageUrl
         self.itemsCount = itemsCount
+        self.description = description
+        self.author = author
+        self.nftIds = nftIds
     }
 }
 
@@ -94,6 +107,13 @@ final class NftCatalogViewModel {
     
     func sortByItemsCount() {
         sortType = .itemsCount
-        collections.sort { $0.itemsCount > $1.itemsCount }
+        collections.sort {
+            if $0.itemsCount == $1.itemsCount {
+                return $0.title.localizedCompare($1.title) == .orderedAscending
+            }
+            
+            return $0.itemsCount > $1.itemsCount
+        }
     }
 }
+

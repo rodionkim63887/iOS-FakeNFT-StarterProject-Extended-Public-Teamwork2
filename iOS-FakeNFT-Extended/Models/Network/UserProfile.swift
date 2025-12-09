@@ -5,7 +5,7 @@ struct UserProfile: Decodable {
     let avatar: String
     let description: String?
     let website: String?
-    let ntfs: [String]
+    let nfts: [String]
     let likes: [String]
     let id: String
 }

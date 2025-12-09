@@ -10,9 +10,7 @@ public final class NftCatalogAssembly {
     }
     
     public func build() -> some View {
-        let viewModel = NftCatalogViewModel(
-            service: services.collectionsService
-            )
+        let viewModel = NftCatalogViewModel(service: services.collectionsService)
         return NftCatalogView(viewModel: viewModel)
     }
 }

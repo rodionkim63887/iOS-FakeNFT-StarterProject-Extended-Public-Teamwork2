@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 import Observation
 
 @Observable
@@ -6,17 +6,26 @@ import Observation
 final class NftCollectionViewModel {
     
     private let service: NftService
-    private let collection: NftCollection
+    private let likesManager: UserLikesManager
+    private let userStore: UserProfileStore
+    private let cartStore: CartStore
     
+    let nftIds: [String]
     var nfts: [Nft] = []
     var isLoading: Bool = false
+    var errorMessage: String? = nil
     
-    init(
-        service: NftService,
-        collection: NftCollection
+    init(service: NftService,
+         nftIds: [String],
+         likesManager: UserLikesManager,
+         userStore: UserProfileStore,
+         cartStore: CartStore
     ) {
         self.service = service
-        self.collection = collection
+        self.nftIds = nftIds
+        self.likesManager = likesManager
+        self.userStore = userStore
+        self.cartStore = cartStore
     }
     
     func loadNfts() async {
@@ -24,17 +33,39 @@ final class NftCollectionViewModel {
         defer { isLoading = false }
         
         var loaded: [Nft] = []
-                
-        for id in collection.nfts {
-            if let nft = try? await service.loadNft(id: id) {
+        
+        for id in nftIds {
+            do {
+                let nft = try await service.loadNft(id: id)
                 loaded.append(nft)
+            } catch {
+                errorMessage = error.localizedDescription
+                nfts = []
             }
         }
         
         nfts = loaded
     }
     
-    func toggleLike(for id: String) {} // TODO: in sprint_03
+    func retry() async {
+        await loadNfts()
+    }
     
-    func toggleInCart(fot id: String) {} // TODO: in sprint_03
+    func toggleLike(for id: String) {
+        likesManager.toggleLike(id: id)
+    }
+    
+    func toggleCart(_ nft: Nft) {
+        if isInCart(nft) { cartStore.remove(nft) }
+        else { cartStore.add(nft) }
+    }
+    
+    func isLiked(_ id: String) -> Bool {
+        userStore.likedIds.contains(id)
+    }
+    
+    func isInCart(_ nft: Nft) -> Bool {
+        cartStore.items.contains(where: { $0.id == nft.id })
+    }
+
 }

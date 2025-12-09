@@ -1,13 +1,21 @@
 import SwiftUI
 
 @Observable
-final class CartViewModel {
+final class CartStore {
+    var items: [Nft] = []
+    
     var deletingAttempt = false
     var blur: CGFloat = 0
     var nftToDelete: Nft?
     
-    var nftToDeleteImage: String {
-       nftToDelete?.images[0] ?? ""
+    var nftToDeleteImage: URL? {
+        guard let urlString = nftToDelete?.images.first,
+              let url = URL(string: urlString) else { return nil }
+        return url
+    }
+    
+    var totalPrice: Float {
+        items.reduce(0) { $0 + $1.price }
     }
     
     func tryDeletingFromCart(nft: Nft) {
@@ -30,7 +38,17 @@ final class CartViewModel {
         withAnimation(.easeInOut) {
             deletingAttempt = false
             blur = 0
-            self.nftToDelete = nil
+            nftToDelete = nil
         }
+    }
+
+    func add(_ nft: Nft) {
+        if !items.contains(where: { $0.id == nft.id }) {
+            items.append(nft)
+        }
+    }
+
+    func remove(_ nft: Nft) {
+        items.removeAll { $0.id == nft.id }
     }
 }
