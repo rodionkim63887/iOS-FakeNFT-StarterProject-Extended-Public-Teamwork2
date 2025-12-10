@@ -13,7 +13,7 @@ struct TestCatalogView: View {
         }
         .backgroundStyle(.background)
         .sheet(isPresented: $presentingNft) {
-            NftDetailBridgeView()
+            // TODO: NftDetailView
         }
     }
 

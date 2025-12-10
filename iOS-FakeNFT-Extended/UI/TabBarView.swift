@@ -1,9 +1,12 @@
 import SwiftUI
 
 struct TabBarView: View {
+    
+    @Environment(ServicesAssembly.self) private var assembly
+
     var body: some View {
         TabView {
-            TestCatalogView()
+            NftCatalogAssembly(services: assembly).build()
                 .tabItem {
                     Label(
                         NSLocalizedString("Tab.catalog", comment: ""),
@@ -11,6 +14,15 @@ struct TabBarView: View {
                     )
                 }
                 .backgroundStyle(.background)
+            
+            CartView()
+                .tabItem {
+                    Label(
+                        NSLocalizedString("Tab.cart", comment: ""),
+                        image: "TabBarCart"
+                    )
+                    .foregroundStyle(Color.accentColor)
+                }
         }
     }
 }

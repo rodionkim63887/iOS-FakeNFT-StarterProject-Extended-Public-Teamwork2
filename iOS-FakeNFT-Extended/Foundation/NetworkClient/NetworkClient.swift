@@ -4,7 +4,7 @@ enum NetworkClientError: Error {
     case httpStatusCode(Int)
     case urlRequestError(Error)
     case urlSessionError
-    case parsingError
+    case parsingError(Error)
     case incorrectRequest(String)
 }
 
@@ -54,8 +54,14 @@ actor DefaultNetworkClient: NetworkClient {
 
         var urlRequest = URLRequest(url: endpoint)
         urlRequest.httpMethod = request.httpMethod.rawValue
-
-        if let dto = request.dto,
+        
+        request.headers?.forEach { key, value in
+            urlRequest.setValue(value, forHTTPHeaderField: key)
+        }
+        
+        if let body = request.body {
+            urlRequest.httpBody = body
+        } else if let dto = request.dto,
            let dtoEncoded = try? encoder.encode(dto) {
             urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
             urlRequest.httpBody = dtoEncoded
@@ -64,12 +70,12 @@ actor DefaultNetworkClient: NetworkClient {
 
         return urlRequest
     }
-
+    
     private func parse<T: Decodable>(data: Data) async throws -> T {
         do {
             return try decoder.decode(T.self, from: data)
         } catch {
-            throw NetworkClientError.parsingError
+            throw NetworkClientError.parsingError(error)
         }
     }
 }
