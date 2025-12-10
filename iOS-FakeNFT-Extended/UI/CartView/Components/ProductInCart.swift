@@ -3,6 +3,7 @@ import Kingfisher
 
 struct ProductInCart: View {
     @Environment(CartStore.self) private var cart
+    
     let nft: Nft
     
     var body: some View {
@@ -11,7 +12,7 @@ struct ProductInCart: View {
                 .ignoresSafeArea()
             
             HStack(spacing: 20) {
-                KFImage(URL(string: nft.imagesUrlsString[0]))
+                KFImage(URL(string: nft.images[0]))
                     .resizable()
                     .scaledToFit()
                     .clipShape(
@@ -23,9 +24,8 @@ struct ProductInCart: View {
                         .font(.bold17)
                         .foregroundStyle(Color.accentColor)
                         .lineLimit(1)
-//                        .layoutPriority(1)
                     
-                    ratingScale
+                    NftRatingView(rating: Int(nft.rating))
                     
                     Spacer()
                     
@@ -41,38 +41,12 @@ struct ProductInCart: View {
                 
                 Spacer()
                 
-                Button {
-                    print("Delete")
-                    cart.tryDeletingFromCart(nft: nft)
-                } label: {
-                    Image("DeleteFromCart")
-                        .frame(width: 40, height: 40)
-                        .foregroundStyle(Color.accentColor)
-                }
-                .buttonStyle(.plain)
+                CartToggleButton(
+                    isInCart: cart.items.contains(where: { $0.id == nft.id }),
+                    onToggle: { cart.tryDeletingFromCart(nft: nft) }
+                )
             }
             .frame(height: 108)
-                
-        }
-    }
-    
-    private var ratingScale: some View {
-        HStack(spacing: 2) {
-            let starsCount = Int(nft.rating)
-            
-            ForEach(0..<starsCount, id: \.self) { _ in
-                Image(systemName: "star.fill")
-                    .resizable()
-                    .frame(width: 12, height: 12)
-                    .foregroundStyle(Color.yellowUniversalColor)
-            }
-            
-            ForEach(0..<(5 - starsCount), id: \.self) { _ in
-                Image(systemName: "star.fill")
-                    .resizable()
-                    .frame(width: 12, height: 12)
-                    .foregroundStyle(Color.lightGreyColor)
-            }
         }
     }
 }

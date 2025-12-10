@@ -1,24 +1,10 @@
 import Foundation
 
-enum CollectionSortOptions {
-    case byName
-//    case byNftCount
-    
-    var sortParameter: String {
-        switch self {
-        case .byName:
-            return "name,asc"
-//        case .byNftCount:
-//            return "
-        }
-    }
-}
-
-struct GetNftCollecionRequest: NetworkRequest {
+struct GetNftCollectionsRequest: NetworkRequest {
     
     let page: Int?
     let size: Int?
-    let soryBy: String?
+    let sortBy: String?
     
     var endpoint: URL? {
         var components = URLComponents(string: "\(RequestConstants.baseURL)/api/v1/collections")
@@ -33,8 +19,8 @@ struct GetNftCollecionRequest: NetworkRequest {
             queryItems.append(URLQueryItem(name: "size", value: "\(size)"))
         }
         
-        if let soryBy = soryBy {
-            queryItems.append(URLQueryItem(name: "soryBy", value: soryBy))
+        if let sortBy = sortBy {
+            queryItems.append(URLQueryItem(name: "sortBy", value: "\(sortBy)"))
         }
         
         components?.queryItems = queryItems

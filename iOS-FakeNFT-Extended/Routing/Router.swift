@@ -3,10 +3,12 @@ import SwiftUI
 @MainActor
 @Observable
 final class Router {
+    
     enum Route: Hashable {
         case paymentMethod(currencies: [Currency])
         case successfulPayment
         case userAgreementView
+        case nftCollectionDetail(collection: NftCollectionViewData)
     }
     
     var path = NavigationPath()
@@ -20,6 +22,8 @@ final class Router {
             SuccessfulPaymentView()
         case .userAgreementView:
             UserAgreementView()
+        case .nftCollectionDetail(collection: let collection):
+            NftCollectionDetailScreen(collection: collection)
         }
     }
     

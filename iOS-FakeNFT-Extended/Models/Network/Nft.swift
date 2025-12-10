@@ -6,7 +6,7 @@ struct Nft: Decodable, Identifiable {
     let description: String
     let author: String
     let price: Float
-    let imagesUrlsString: [String]
+    let images: [String]
     let rating: Int
     let createdAt: String
 }

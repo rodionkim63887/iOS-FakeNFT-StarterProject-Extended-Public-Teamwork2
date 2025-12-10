@@ -41,11 +41,10 @@ struct CartView: View {
             Button {
                 showingOptions = true
             } label: {
-                Image("SortCart")
-                    .frame(width: 42, height: 42)
-                    .foregroundStyle(Color.accentColor)
+                MenuButtonImage()
             }
-            .padding(.horizontal, 9)
+            .padding(.trailing, 9)
+            
             .confirmationDialog("Сортировка", isPresented: $showingOptions, titleVisibility: .visible) {
                 Button("По цене") {
                     cart.items.sort(by: { $0.price < $1.price })

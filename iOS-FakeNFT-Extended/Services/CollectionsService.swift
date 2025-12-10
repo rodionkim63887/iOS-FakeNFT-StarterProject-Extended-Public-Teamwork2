@@ -1,11 +1,11 @@
 import Foundation
 
-protocol CollectionService {
+protocol CollectionsService {
     func loadCollections() async throws -> [NftCollection]
 }
 
 @MainActor
-final class CollectionServiceImpl: CollectionService {
+final class CollectionsServiceImpl: CollectionsService {
     
     private let networkClient: NetworkClient
     
@@ -15,7 +15,8 @@ final class CollectionServiceImpl: CollectionService {
     
     func loadCollections() async throws -> [NftCollection] {
         
-        let request = GetNftCollecionRequest(page: 0, size: 10, sortBy: nil)
+        let request = GetNftCollectionsRequest(page: 0, size: 10, sortBy: nil)
+                
         return try await networkClient.send(request: request)
     }
 }
